@@ -51,8 +51,8 @@ const Navbar = () => {
             <div className="navbar-user">
                 <div className="user-info">
                     <User size={16} />
-                    <span>{user.name}</span>
-                    <span className={`role-badge ${user.role}`}>{user.role}</span>
+                    <span>{user?.name || 'Guest'}</span>
+                    <span className={`role-badge ${user?.role || 'student'}`}>{user?.role || 'Guest'}</span>
                 </div>
                 <button className="btn-logout" onClick={handleLogout}>
                     <LogOut size={16} />

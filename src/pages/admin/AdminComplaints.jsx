@@ -66,9 +66,9 @@ const AdminComplaints = () => {
     const searched = search.trim()
         ? complaints.filter(
             (c) =>
-                c.title.toLowerCase().includes(search.toLowerCase()) ||
-                c.student?.name.toLowerCase().includes(search.toLowerCase()) ||
-                c.category.toLowerCase().includes(search.toLowerCase())
+                c.title?.toLowerCase().includes(search.toLowerCase()) ||
+                c.student?.name?.toLowerCase().includes(search.toLowerCase()) ||
+                c.category?.toLowerCase().includes(search.toLowerCase())
         )
         : complaints;
 

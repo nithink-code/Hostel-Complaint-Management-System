@@ -4,15 +4,28 @@ import API from '../api/axios';
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
+    const [user, setUser] = useState(() => {
         const storedUser = localStorage.getItem('hostelops_user');
         const token = localStorage.getItem('hostelops_token');
         if (storedUser && token) {
-            setUser(JSON.parse(storedUser));
+            try {
+                return JSON.parse(storedUser);
+            } catch (e) {
+                return null;
+            }
         }
+        return {
+            _id: 'guest',
+            name: 'Guest User',
+            email: 'guest@example.com',
+            role: 'student',
+            roomNumber: 'N/A',
+            hostelBlock: 'N/A'
+        };
+    });
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
         setLoading(false);
     }, []);
 
@@ -49,7 +62,14 @@ export const AuthProvider = ({ children }) => {
     const logout = () => {
         localStorage.removeItem('hostelops_token');
         localStorage.removeItem('hostelops_user');
-        setUser(null);
+        setUser({
+            _id: 'guest',
+            name: 'Guest User',
+            email: 'guest@example.com',
+            role: 'student',
+            roomNumber: 'N/A',
+            hostelBlock: 'N/A'
+        });
     };
 
     return (

@@ -23,21 +23,21 @@ const AppRoutes = () => {
       <main className="main-content">
         <Routes>
           {/* Public */}
-          <Route path="/login" element={!user ? <Login /> : <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'} />} />
-          <Route path="/register" element={!user ? <Register /> : <Navigate to={user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard'} />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/google-auth-success" element={<GoogleAuthSuccess />} />
 
           {/* Student */}
-          <Route path="/student/dashboard" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
-          <Route path="/student/submit" element={<ProtectedRoute><SubmitComplaint /></ProtectedRoute>} />
-          <Route path="/student/complaints" element={<ProtectedRoute><MyComplaints /></ProtectedRoute>} />
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
+          <Route path="/student/submit" element={<SubmitComplaint />} />
+          <Route path="/student/complaints" element={<MyComplaints />} />
 
           {/* Admin */}
-          <Route path="/admin/dashboard" element={<ProtectedRoute adminOnly><AdminDashboard /></ProtectedRoute>} />
-          <Route path="/admin/complaints" element={<ProtectedRoute adminOnly><AdminComplaints /></ProtectedRoute>} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/complaints" element={<AdminComplaints />} />
 
           {/* Fallback */}
-          <Route path="/" element={<Navigate to={user ? (user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard') : '/login'} />} />
+          <Route path="/" element={<Navigate to="/student/dashboard" />} />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </main>

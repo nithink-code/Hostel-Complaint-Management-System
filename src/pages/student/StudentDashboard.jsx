@@ -39,10 +39,10 @@ const StudentDashboard = () => {
         <div className="page-container">
             <div className="page-header">
                 <div>
-                    <h1>Welcome, {user.name}! 👋</h1>
+                    <h1>Welcome, {user?.name || 'Guest'}! 👋</h1>
                     <p>
-                        {user.roomNumber && `Room ${user.roomNumber}`}
-                        {user.hostelBlock && ` • ${user.hostelBlock}`}
+                        {user?.roomNumber && `Room ${user.roomNumber}`}
+                        {user?.hostelBlock && ` • ${user.hostelBlock}`}
                     </p>
                 </div>
                 <Link to="/student/submit" className="btn-primary">
