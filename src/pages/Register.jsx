@@ -37,7 +37,7 @@ const Register = () => {
         }
         setLoading(true);
         try {
-            const { confirmPassword, ...payload } = form;
+            const { confirmPassword: _confirmPassword, ...payload } = form;
             const user = await register(payload);
             toast.success(`Welcome, ${user.name}!`);
             navigate(user.role === 'admin' ? '/admin/dashboard' : '/student/dashboard');

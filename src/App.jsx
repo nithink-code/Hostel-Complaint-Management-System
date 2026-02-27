@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
+import { AuthProvider } from './context/AuthContext';
 import Navbar from './components/Navbar';
 
 // Pages
@@ -15,7 +14,6 @@ import AdminComplaints from './pages/admin/AdminComplaints';
 import GoogleAuthSuccess from './pages/GoogleAuthSuccess';
 
 const AppRoutes = () => {
-  const { user } = useAuth();
 
   return (
     <>

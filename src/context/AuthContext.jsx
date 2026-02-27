@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react';
+/* eslint-disable react-refresh/only-export-components */
+import { createContext, useContext, useState } from 'react';
 import API from '../api/axios';
 
 const AuthContext = createContext(null);
@@ -10,7 +11,7 @@ export const AuthProvider = ({ children }) => {
         if (storedUser && token) {
             try {
                 return JSON.parse(storedUser);
-            } catch (e) {
+            } catch {
                 return null;
             }
         }
@@ -23,11 +24,8 @@ export const AuthProvider = ({ children }) => {
             hostelBlock: 'N/A'
         };
     });
-    const [loading, setLoading] = useState(false);
+    const loading = false;
 
-    useEffect(() => {
-        setLoading(false);
-    }, []);
 
     const login = async (email, password) => {
         const { data } = await API.post('/auth/login', { email, password });
