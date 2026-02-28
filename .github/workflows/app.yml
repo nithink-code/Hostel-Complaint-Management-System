@@ -1,61 +1,23 @@
-name: Complete Frontend CI/CD Pipeline
+name: Frontend CI/CD
 
 on:
   push:
     branches:
       - main
 
-env:
-  IMAGE_NAME: frontend-app
-
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # 2️⃣ Setup Node
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      # 3️⃣ Install Dependencies
-      - name: Install Dependencies
-        run: npm ci
-
-      # 4️⃣ Run Lint (optional)
-      - name: Run Lint
-        run: npm run lint || true
-
-      # 5️⃣ Build Project
-      - name: Build Project
-        run: npm run build
-
-      # 6️⃣ Login to Docker Hub
-      - name: Login to Docker Hub
+      - name: Login to DockerHub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 7️⃣ Build Docker Image
-      - name: Build Docker Image
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest .
+      - name: Build Image
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/frontend-app:latest .
 
-      # 8️⃣ Push Image
-      - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/${{ env.IMAGE_NAME }}:latest
-
-      # 9️⃣ Deploy to EC2
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          script: |
-            docker stop frontend-app || true
-            docker rm frontend-app || true
-            docker pull ${{ secrets.DOCKER_USERNAME }}/frontend-app:latest
-            docker run -d -p 80:80 --name frontend-app --restart always ${{ secrets.DOCKER_USERNAME }}/frontend-app:latest
+      - name: Push Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/frontend-app:latest
