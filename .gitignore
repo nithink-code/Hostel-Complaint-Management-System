@@ -28,5 +28,3 @@ dist-ssr
 .env.production
 .env.*
 
-# Nginx
-nginx.conf
