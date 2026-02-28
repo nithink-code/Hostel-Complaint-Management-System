@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Shield, Mail, Lock, User, Home, Building, Eye, EyeOff } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const Register = () => {
     const [form, setForm] = useState({
@@ -51,20 +52,42 @@ const Register = () => {
     return (
         <div className="auth-page">
             <div className="auth-left">
-                <div className="auth-hero">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="auth-hero"
+                >
                     <Shield size={64} className="hero-icon" />
                     <h1>HostelOps</h1>
                     <p>Join the smart hostel management platform</p>
                     <div className="auth-features">
-                        <div className="feature-item">🏠 For students & admins</div>
-                        <div className="feature-item">📋 Structured complaint tracking</div>
-                        <div className="feature-item">⚡ Fast resolution workflow</div>
+                        {[
+                            '🏠 For students & admins',
+                            '📋 Structured complaint tracking',
+                            '⚡ Fast resolution workflow'
+                        ].map((text, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 + (i * 0.1) }}
+                                className="feature-item"
+                            >
+                                {text}
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             <div className="auth-right">
-                <div className="auth-card">
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="auth-card"
+                >
                     <div className="auth-header">
                         <h2>Create Account</h2>
                         <p>Register to get started</p>
@@ -154,7 +177,11 @@ const Register = () => {
                         </div>
 
                         {form.role === 'student' && (
-                            <div className="form-row">
+                            <motion.div
+                                initial={{ opacity: 0, height: 0 }}
+                                animate={{ opacity: 1, height: 'auto' }}
+                                className="form-row"
+                            >
                                 <div className="form-group">
                                     <label htmlFor="roomNumber">Room Number</label>
                                     <div className="input-wrapper">
@@ -184,18 +211,25 @@ const Register = () => {
                                         />
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         )}
 
-                        <button type="submit" className="btn-primary btn-full" disabled={loading}>
+                        <motion.button
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            type="submit"
+                            className="btn-primary btn-full"
+                            disabled={loading}
+                        >
                             {loading ? <span className="btn-spinner"></span> : 'Create Account'}
-                        </button>
+                        </motion.button>
 
                         <div className="auth-divider">
                             <span>OR</span>
                         </div>
 
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.01 }}
                             type="button"
                             className="btn-google btn-full"
                             onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/auth/google`}
@@ -207,14 +241,14 @@ const Register = () => {
                                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.63l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335" />
                             </svg>
                             Continue with Google
-                        </button>
+                        </motion.button>
                     </form>
 
                     <p className="auth-switch">
                         Already have an account?{' '}
                         <Link to="/login">Sign in here</Link>
                     </p>
-                </div>
+                </motion.div>
             </div>
         </div>
     );

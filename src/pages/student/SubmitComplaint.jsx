@@ -7,6 +7,8 @@ import { Send, AlertTriangle } from 'lucide-react';
 const CATEGORIES = ['Plumbing', 'Electrical', 'Furniture', 'Cleaning', 'Internet/WiFi', 'Pest Control', 'Security', 'Other'];
 const PRIORITIES = ['Low', 'Medium', 'High', 'Urgent'];
 
+import { motion } from 'framer-motion';
+
 const SubmitComplaint = () => {
     const [form, setForm] = useState({
         title: '',
@@ -42,13 +44,21 @@ const SubmitComplaint = () => {
     return (
         <div className="page-container">
             <div className="page-header">
-                <div>
-                    <h1>Submit Complaint</h1>
-                    <p>Describe your issue and we'll get it resolved</p>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                >
+                    <h1>Report an Issue</h1>
+                    <p>Provide details about the issue and our team will resolve it promptly.</p>
+                </motion.div>
             </div>
 
-            <div className="form-card">
+            <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className="form-card glass-card"
+            >
                 <form onSubmit={handleSubmit} className="complaint-form">
                     <div className="form-group">
                         <label htmlFor="title">Complaint Title *</label>
@@ -56,7 +66,7 @@ const SubmitComplaint = () => {
                             id="title"
                             type="text"
                             name="title"
-                            placeholder="Brief title of the issue"
+                            placeholder="Briefly state the problem (e.g., Leaking Tap in Room 204)"
                             value={form.title}
                             onChange={handleChange}
                             maxLength={100}
@@ -67,9 +77,9 @@ const SubmitComplaint = () => {
 
                     <div className="form-row">
                         <div className="form-group">
-                            <label htmlFor="category">Category *</label>
+                            <label htmlFor="category">Isssue Category *</label>
                             <select id="category" name="category" value={form.category} onChange={handleChange} required>
-                                <option value="">Select category</option>
+                                <option value="">Select a category</option>
                                 {CATEGORIES.map((cat) => (
                                     <option key={cat} value={cat}>{cat}</option>
                                 ))}
@@ -77,7 +87,7 @@ const SubmitComplaint = () => {
                         </div>
 
                         <div className="form-group">
-                            <label htmlFor="priority">Priority *</label>
+                            <label htmlFor="priority">Severity Level *</label>
                             <select
                                 id="priority"
                                 name="priority"
@@ -93,11 +103,11 @@ const SubmitComplaint = () => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="description">Description *</label>
+                        <label htmlFor="description">Detailed Description *</label>
                         <textarea
                             id="description"
                             name="description"
-                            placeholder="Describe the issue in detail — location, what happened, how long it has been an issue..."
+                            placeholder="Describe the issue in detail — include exact location, when it started, and any other relevant info..."
                             value={form.description}
                             onChange={handleChange}
                             rows={6}
@@ -108,22 +118,32 @@ const SubmitComplaint = () => {
                     </div>
 
                     {form.priority === 'Urgent' && (
-                        <div className="alert-warning">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="alert-warning"
+                        >
                             <AlertTriangle size={18} />
-                            <span>Urgent complaints are escalated immediately to maintenance staff.</span>
-                        </div>
+                            <span><strong>Urgent Alert:</strong> This will be flagged for immediate maintenance intervention.</span>
+                        </motion.div>
                     )}
 
-                    <div className="form-actions">
+                    <div className="form-actions" style={{ marginTop: '24px' }}>
                         <button type="button" className="btn-secondary" onClick={() => navigate(-1)}>
-                            Cancel
+                            Discard
                         </button>
-                        <button type="submit" className="btn-primary" disabled={loading}>
-                            {loading ? <span className="btn-spinner"></span> : <><Send size={16} /> Submit Complaint</>}
-                        </button>
+                        <motion.button
+                            whileHover={{ scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            type="submit"
+                            className="btn-primary"
+                            disabled={loading}
+                        >
+                            {loading ? <span className="btn-spinner"></span> : <><Send size={16} /> Submit Report</>}
+                        </motion.button>
                     </div>
                 </form>
-            </div>
+            </motion.div>
         </div>
     );
 };

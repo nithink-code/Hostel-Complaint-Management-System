@@ -5,6 +5,8 @@ import { useAuth } from '../../context/AuthContext';
 import StatusBadge, { PriorityBadge } from '../../components/StatusBadge';
 import toast from 'react-hot-toast';
 import { PlusCircle, ClipboardList, Clock, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import FeatureCarousel from '../../components/FeatureCarousel';
+import AnnouncementBanner from '../../components/AnnouncementBanner';
 
 const StudentDashboard = () => {
     const { user } = useAuth();
@@ -37,48 +39,30 @@ const StudentDashboard = () => {
 
     return (
         <div className="page-container">
-            <div className="page-header">
-                <div>
-                    <h1>Welcome, {user?.name || 'Guest'}! 👋</h1>
-                    <p>
-                        {user?.roomNumber && `Room ${user.roomNumber}`}
-                        {user?.hostelBlock && ` • ${user.hostelBlock}`}
-                    </p>
-                </div>
-                <Link to="/student/submit" className="btn-primary">
-                    <PlusCircle size={18} />
-                    New Complaint
-                </Link>
-            </div>
+            <FeatureCarousel userName={user?.name} />
+            <AnnouncementBanner />
 
             {/* Stats Cards */}
             <div className="stats-grid">
-                <div className="stat-card stat-total">
-                    <div className="stat-icon"><ClipboardList size={28} /></div>
-                    <div className="stat-info">
-                        <span className="stat-value">{stats.total}</span>
-                        <span className="stat-label">Total</span>
-                    </div>
-                </div>
                 <div className="stat-card stat-pending">
                     <div className="stat-icon"><Clock size={28} /></div>
                     <div className="stat-info">
                         <span className="stat-value">{stats.pending}</span>
-                        <span className="stat-label">Pending</span>
+                        <span className="stat-label">Pending Approval</span>
                     </div>
                 </div>
                 <div className="stat-card stat-inprogress">
                     <div className="stat-icon"><AlertCircle size={28} /></div>
                     <div className="stat-info">
                         <span className="stat-value">{stats.inProgress}</span>
-                        <span className="stat-label">In Progress</span>
+                        <span className="stat-label">Under Review</span>
                     </div>
                 </div>
                 <div className="stat-card stat-resolved">
                     <div className="stat-icon"><CheckCircle size={28} /></div>
                     <div className="stat-info">
                         <span className="stat-value">{stats.resolved}</span>
-                        <span className="stat-label">Resolved</span>
+                        <span className="stat-label">Fixed & Closed</span>
                     </div>
                 </div>
             </div>

@@ -4,6 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
 import { Shield, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 
+import { motion } from 'framer-motion';
+
 const Login = () => {
     const [form, setForm] = useState({ email: '', password: '' });
     const [loading, setLoading] = useState(false);
@@ -34,20 +36,42 @@ const Login = () => {
     return (
         <div className="auth-page">
             <div className="auth-left">
-                <div className="auth-hero">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                    className="auth-hero"
+                >
                     <Shield size={64} className="hero-icon" />
                     <h1>HostelOps</h1>
                     <p>Smart Hostel Complaint & Maintenance Management System</p>
                     <div className="auth-features">
-                        <div className="feature-item">✅ Submit complaints instantly</div>
-                        <div className="feature-item">✅ Track status in real-time</div>
-                        <div className="feature-item">✅ Admin oversight & control</div>
+                        {[
+                            '✅ Submit complaints instantly',
+                            '✅ Track status in real-time',
+                            '✅ Admin oversight & control'
+                        ].map((text, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 + (i * 0.1) }}
+                                className="feature-item"
+                            >
+                                {text}
+                            </motion.div>
+                        ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
 
             <div className="auth-right">
-                <div className="auth-card">
+                <motion.div
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6 }}
+                    className="auth-card"
+                >
                     <div className="auth-header">
                         <h2>Welcome Back</h2>
                         <p>Sign in to your account</p>
@@ -93,15 +117,22 @@ const Login = () => {
                             </div>
                         </div>
 
-                        <button type="submit" className="btn-primary btn-full" disabled={loading}>
+                        <motion.button
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            type="submit"
+                            className="btn-primary btn-full"
+                            disabled={loading}
+                        >
                             {loading ? <span className="btn-spinner"></span> : 'Sign In'}
-                        </button>
+                        </motion.button>
 
                         <div className="auth-divider">
                             <span>OR</span>
                         </div>
 
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.01 }}
                             type="button"
                             className="btn-google btn-full"
                             onClick={() => window.location.href = `${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/auth/google`}
@@ -113,14 +144,14 @@ const Login = () => {
                                 <path d="M12 5.38c1.62 0 3.06.56 4.21 1.63l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 12-4.53z" fill="#EA4335" />
                             </svg>
                             Continue with Google
-                        </button>
+                        </motion.button>
                     </form>
 
                     <p className="auth-switch">
                         Don&apos;t have an account?{' '}
                         <Link to="/register">Create one here</Link>
                     </p>
-                </div>
+                </motion.div>
             </div>
         </div>
     );
