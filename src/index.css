@@ -2599,9 +2599,23 @@ textarea::placeholder {
 
 .ann-footer-meta {
   display: flex;
-  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
   font-size: 0.75rem;
   color: var(--text-muted);
+  border-top: 1px dashed var(--border);
+  padding-top: 12px;
+}
+
+.ann-posted-by {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ann-posted-by strong {
+  color: var(--text-secondary);
 }
 
 @media (max-width: 600px) {

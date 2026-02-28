@@ -256,7 +256,12 @@ const AdminAnnouncements = () => {
                                             <span className="meta-tag">{ann.category}</span>
                                             {ann.targetBlock ? <span className="meta-tag">Block {ann.targetBlock}</span> : <span className="meta-tag">All Students</span>}
                                             {ann.expiryDate && <span className="meta-tag">Expires: {new Date(ann.expiryDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>}
-                                            <span className="meta-tag">By {ann.createdBy?.name}</span>
+                                            <div className="ann-posted-by" style={{ marginLeft: 'auto', border: 'none', paddingTop: 0 }}>
+                                                <span className="meta-tag">By {ann.createdBy?.name}</span>
+                                                <span className={`role-badge ${ann.createdBy?.role || 'admin'}`} style={{ fontSize: '0.62rem' }}>
+                                                    {ann.createdBy?.role === 'admin' ? 'Official' : 'Resident'}
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

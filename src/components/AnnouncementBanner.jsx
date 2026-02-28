@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import API from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-    Megaphone, Droplets, Zap, UtensilsCrossed, Search, Info, AlertTriangle, ChevronDown, ChevronUp
+    Megaphone, Droplets, Zap, UtensilsCrossed, Search, Info, AlertTriangle, ChevronDown, ChevronUp, Plus
 } from 'lucide-react';
 
 const categoryConfig = {
@@ -25,6 +27,7 @@ const isNew = (createdAt) => {
 };
 
 const AnnouncementBanner = () => {
+    const { user } = useAuth();
     const [announcements, setAnnouncements] = useState([]);
     const [expanded, setExpanded] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -57,6 +60,11 @@ const AnnouncementBanner = () => {
                     <span>Hostel Announcements</span>
                     <span className="ann-count-badge">{announcements.length}</span>
                 </div>
+                {user?.role === 'student' && (
+                    <Link to="/student/submit" className="link-view-all" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                        <Plus size={14} /> Post Notice
+                    </Link>
+                )}
             </div>
 
             <div className="ann-banner-list">
@@ -107,9 +115,14 @@ const AnnouncementBanner = () => {
                                         >
                                             <p>{ann.description}</p>
                                             <div className="ann-footer-meta">
-                                                <span>Posted by {ann.createdBy?.name || 'Admin'}</span>
+                                                <div className="ann-posted-by">
+                                                    <strong>Created By:</strong> {ann.createdBy?.name || 'Admin'}
+                                                    <span className={`role-badge ${ann.createdBy?.role || 'admin'}`} style={{ marginLeft: '6px', fontSize: '0.65rem' }}>
+                                                        {ann.createdBy?._id === user?._id ? 'By Me' : (ann.createdBy?.role === 'admin' ? 'Official' : 'Resident')}
+                                                    </span>
+                                                </div>
                                                 {ann.expiryDate && (
-                                                    <span>Expires: {new Date(ann.expiryDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                                                    <span>• Expires: {new Date(ann.expiryDate).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
                                                 )}
                                             </div>
                                         </motion.div>
